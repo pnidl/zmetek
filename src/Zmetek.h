@@ -24,16 +24,20 @@ public:
     // InputListener
     bool keyPressed(const OgreBites::KeyboardEvent &evt) override;
 
+    bool mouseWheelRolled(const OgreBites::MouseWheelEvent &evt) override;
+
 private:
 
     void createWorld();
-    void createCamera();
     void createZmetek();
+    void createCamera();
+    void updateCameraPosition();
 
     Ogre::Root* root = 0;
     Ogre::SceneManager* sceneManager = 0;
     Ogre::SceneNode* cameraNode = 0;
     Ogre::Entity* zmetek = 0;
+    int cameraDistance = 10;
 };
 
 #endif //ZMETEKAPP_ZMETEKAPP_H

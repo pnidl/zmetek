@@ -28,6 +28,7 @@ void ZmetekApp::setup() {
     createWorld();
     createZmetek();
     createCamera();
+    updateCameraPosition();
 }
 
 // InputListener
@@ -95,10 +96,18 @@ void ZmetekApp::createWorld() {
     light->setPosition(300, 300, 300);
 }
 
+void ZmetekApp::createZmetek() {
+    zmetek = sceneManager->createEntity("zmetek", "Zmetek.mesh", "Zmetek");
+    //const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Ogre/Skin");
+    const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Zmetek", "Zmetek");
+    zmetek->setMaterial(materialPtr);
+    Ogre::SceneNode* node = sceneManager->getRootSceneNode()->createChildSceneNode(Vector3(5,5,5));
+    node->pitch(Degree(-90)); // Blender exports are Z-up oriented
+    node->attachObject(zmetek);
+}
+
 void ZmetekApp::createCamera() {
     cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-    cameraNode->setPosition(10, 20, 20);
-    cameraNode->lookAt(Vector3(10,0,0), Node::TS_WORLD);
 
     Camera* camera = sceneManager->createCamera("MainCamera");
     camera->setNearClipDistance(1);
@@ -108,13 +117,15 @@ void ZmetekApp::createCamera() {
     cameraNode->attachObject(camera);
 }
 
-void ZmetekApp::createZmetek() {
-    zmetek = sceneManager->createEntity("zmetek", "Zmetek.mesh", "Zmetek");
-    //const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Ogre/Skin");
-    const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Zmetek", "Zmetek");
-    zmetek->setMaterial(materialPtr);
-    Ogre::SceneNode* node = sceneManager->getRootSceneNode()->createChildSceneNode(Vector3(5,5,5));
-    node->pitch(Degree(-90)); // Blender exports are Z-up oriented
-    node->attachObject(zmetek);
+void ZmetekApp::updateCameraPosition() {
+    const Vector3 &zmetekPosition = zmetek->getParentSceneNode()->getPosition();
+    cameraNode->setPosition(zmetekPosition.x, zmetekPosition.y + cameraDistance, zmetekPosition.z + cameraDistance);
+    cameraNode->lookAt(zmetekPosition, Node::TS_WORLD);
+}
+
+bool ZmetekApp::mouseWheelRolled(const MouseWheelEvent &evt) {
+    cameraDistance = cameraDistance - evt.y;
+    updateCameraPosition();
+    return true;
 }
 
