@@ -26,6 +26,7 @@ void ZmetekApp::setup() {
     shadergen->addSceneManager(sceneManager);
 
     createWorld();
+    createZmetek();
     createCamera();
 }
 
@@ -96,7 +97,7 @@ void ZmetekApp::createWorld() {
 
 void ZmetekApp::createCamera() {
     cameraNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-    cameraNode->setPosition(10, 20, 50);
+    cameraNode->setPosition(10, 20, 20);
     cameraNode->lookAt(Vector3(10,0,0), Node::TS_WORLD);
 
     Camera* camera = sceneManager->createCamera("MainCamera");
@@ -105,5 +106,15 @@ void ZmetekApp::createCamera() {
 
     getRenderWindow()->addViewport(camera);
     cameraNode->attachObject(camera);
+}
+
+void ZmetekApp::createZmetek() {
+    zmetek = sceneManager->createEntity("zmetek", "Zmetek.mesh", "Zmetek");
+    //const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Ogre/Skin");
+    const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Zmetek", "Zmetek");
+    zmetek->setMaterial(materialPtr);
+    Ogre::SceneNode* node = sceneManager->getRootSceneNode()->createChildSceneNode(Vector3(5,5,5));
+    node->pitch(Degree(-90)); // Blender exports are Z-up oriented
+    node->attachObject(zmetek);
 }
 

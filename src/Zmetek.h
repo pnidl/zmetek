@@ -33,6 +33,7 @@ private:
     Ogre::Root* root = 0;
     Ogre::SceneManager* sceneManager = 0;
     Ogre::SceneNode* cameraNode = 0;
+    Ogre::Entity* zmetek = 0;
 };
 
 #endif //ZMETEKAPP_ZMETEKAPP_H

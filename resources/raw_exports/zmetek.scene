@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- exporter: blender2ogre 0.7.0 -->
-<!-- export_time: Wed, 06 Sep 2017 08:22:11 +0000 -->
-<!-- previous_export_time: Tue, 05 Sep 2017 12:20:45 +0000 -->
+<!-- export_time: Wed, 06 Sep 2017 11:29:49 +0000 -->
+<!-- previous_export_time: Wed, 06 Sep 2017 08:22:11 +0000 -->
 <scene author="pooka" formatVersion="1.1" >
   <nodes >
     <node name="Zmetek" >
@@ -9,8 +9,8 @@
       <rotation qw="1.000000" qx="0.000000" qy="0.000000" qz="0.000000" />
       <scale x="1.000000" y="1.000000" z="1.000000" />
       <userData >
-        <property data='&lt;bpy id prop: owner="OBZmetek", name="cycles", address=0x7f3790ee2348&gt;' name="cycles" type="IDPropertyGroup" />
-        <property data='&lt;bpy id prop: owner="OBZmetek", name="cycles_visibility", address=0x7f3790ee2e88&gt;' name="cycles_visibility" type="IDPropertyGroup" />
+        <property data='&lt;bpy id prop: owner="OBZmetek", name="cycles", address=0x7f379dafa748&gt;' name="cycles" type="IDPropertyGroup" />
+        <property data='&lt;bpy id prop: owner="OBZmetek", name="cycles_visibility", address=0x7f379daf9fc8&gt;' name="cycles_visibility" type="IDPropertyGroup" />
       </userData>
       <entity meshFile="Cube.mesh" name="Cube" >
         <userData >
@@ -34,7 +34,7 @@
           <property data="0.02539999969303608" name="damping_trans" type="float" />
           <property data="0.1589999943971634" name="damping_rot" type="float" />
           <property data="0.4000000059604645" name="inertia_tensor" type="float" />
-          <property data='&lt;bpy id prop: owner="MECube", name="cycles", address=0x7f3790ee2988&gt;' name="cycles" type="IDPropertyGroup" />
+          <property data='&lt;bpy id prop: owner="MECube", name="cycles", address=0x7f378d554ba8&gt;' name="cycles" type="IDPropertyGroup" />
         </userData>
       </entity>
     </node>
@@ -43,8 +43,8 @@
       <rotation qw="0.570947" qx="0.169076" qy="0.272171" qz="0.755880" />
       <scale x="1.000000" y="1.000000" z="1.000000" />
       <userData >
-        <property data='&lt;bpy id prop: owner="OBLamp", name="cycles", address=0x7f3790786988&gt;' name="cycles" type="IDPropertyGroup" />
-        <property data='&lt;bpy id prop: owner="OBLamp", name="cycles_visibility", address=0x7f3790787928&gt;' name="cycles_visibility" type="IDPropertyGroup" />
+        <property data='&lt;bpy id prop: owner="OBLamp", name="cycles", address=0x7f3788fdb3e8&gt;' name="cycles" type="IDPropertyGroup" />
+        <property data='&lt;bpy id prop: owner="OBLamp", name="cycles_visibility", address=0x7f379dafaf68&gt;' name="cycles_visibility" type="IDPropertyGroup" />
       </userData>
       <light name="Lamp" powerScale="1.0" type="point" >
         <colourDiffuse b="1.0" g="1.0" r="1.0" />
@@ -57,7 +57,7 @@
       <rotation qw="0.781600" qx="0.481707" qy="0.212922" qz="0.334251" />
       <scale x="1.000000" y="1.000000" z="1.000000" />
       <userData >
-        <property data='&lt;bpy id prop: owner="OBCamera", name="cycles", address=0x7f379dab9608&gt;' name="cycles" type="IDPropertyGroup" />
+        <property data='&lt;bpy id prop: owner="OBCamera", name="cycles", address=0x7f3788fdb168&gt;' name="cycles" type="IDPropertyGroup" />
       </userData>
       <camera fov="0.5033799435163735" name="Camera" projectionType="perspective" >
         <clipping far="100.0" near="0.10000000149011612" />
