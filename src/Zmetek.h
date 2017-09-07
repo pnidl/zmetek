@@ -23,8 +23,9 @@ public:
 
     // InputListener
     bool keyPressed(const OgreBites::KeyboardEvent &evt) override;
-
+    bool keyReleased(const OgreBites::KeyboardEvent &evt) override;
     bool mouseWheelRolled(const OgreBites::MouseWheelEvent &evt) override;
+    void frameRendered(const Ogre::FrameEvent &evt) override;
 
 private:
 
@@ -32,6 +33,8 @@ private:
     void createZmetek();
     void createCamera();
     void updateCameraPosition();
+    void moveZmetek(int direction);
+    void turnZmetek(int direction);
 
     Ogre::Root* root = 0;
     Ogre::SceneManager* sceneManager = 0;

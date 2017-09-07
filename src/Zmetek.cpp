@@ -4,6 +4,7 @@
 
 #include "Zmetek.h"
 #include <iostream>
+#include <OgreMath.h>
 
 using namespace Ogre;
 using namespace OgreBites;
@@ -32,11 +33,69 @@ void ZmetekApp::setup() {
 }
 
 // InputListener
+bool wPressed = false;
+bool sPressed = false;
+bool aPressed = false;
+bool dPressed = false;
 
 bool ZmetekApp::keyPressed(const OgreBites::KeyboardEvent &evt) {
-    if (evt.keysym.sym == SDLK_ESCAPE) {
-        getRoot()->queueEndRendering();
+    switch (evt.keysym.sym) {
+        case SDLK_w:
+            wPressed = true;
+            break;
+        case SDLK_s:
+            sPressed = true;
+            break;
+        case SDLK_a:
+            aPressed = true;
+            break;
+        case SDLK_d:
+            dPressed = true;
+            break;
+        default:
+            break;
     }
+    return true;
+}
+
+bool ZmetekApp::keyReleased(const KeyboardEvent &evt) {
+    switch (evt.keysym.sym) {
+        case SDLK_ESCAPE:
+            getRoot()->queueEndRendering();
+            break;
+        case SDLK_w:
+            wPressed = false;
+            break;
+        case SDLK_s:
+            sPressed = false;
+            break;
+        case SDLK_a:
+            aPressed = false;
+            break;
+        case SDLK_d:
+            dPressed = false;
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+
+void ZmetekApp::frameRendered(const Ogre::FrameEvent &evt) {
+    if (wPressed) {
+        moveZmetek(1);
+    } else if (sPressed) {
+        moveZmetek(-1);
+    } else if (aPressed) {
+        turnZmetek(1);
+    } else if (dPressed) {
+        turnZmetek(-1);
+    }
+}
+
+bool ZmetekApp::mouseWheelRolled(const MouseWheelEvent &evt) {
+    cameraDistance = cameraDistance - evt.y;
+    updateCameraPosition();
     return true;
 }
 
@@ -93,17 +152,21 @@ void ZmetekApp::createWorld() {
 
     // Light
     Ogre::Light* light = sceneManager->createLight("MainLight");
-    light->setPosition(300, 300, 300);
+    light->setPosition(-300, 300, -300);
 }
 
 void ZmetekApp::createZmetek() {
     zmetek = sceneManager->createEntity("zmetek", "Zmetek.mesh", "Zmetek");
-    //const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Ogre/Skin");
+
     const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Zmetek", "Zmetek");
     zmetek->setMaterial(materialPtr);
+
     Ogre::SceneNode* node = sceneManager->getRootSceneNode()->createChildSceneNode(Vector3(5,5,5));
-    node->pitch(Degree(-90)); // Blender exports are Z-up oriented
     node->attachObject(zmetek);
+
+    // Blender exports are Z-up oriented
+    /*node->pitch(Degree(-90));
+    node->setFixedYawAxis(true, Vector3::UNIT_Z);*/
 }
 
 void ZmetekApp::createCamera() {
@@ -123,9 +186,34 @@ void ZmetekApp::updateCameraPosition() {
     cameraNode->lookAt(zmetekPosition, Node::TS_WORLD);
 }
 
-bool ZmetekApp::mouseWheelRolled(const MouseWheelEvent &evt) {
-    cameraDistance = cameraDistance - evt.y;
+void ZmetekApp::moveZmetek(int direction) {
+    SceneNode *zmetekNode = zmetek->getParentSceneNode();
+    const Quaternion &orientation = zmetekNode->getOrientation();
+    Real yaw = orientation.getYaw().valueDegrees();
+    if (yaw < 0) {
+        yaw = 360 - yaw;
+    }
+    const Degree &yawDegrees = Degree(yaw);
+    const Radian &yawRadians = Radian(yawDegrees);
+
+    const Vector3 &currentPosition = zmetekNode->getPosition();
+    Real newX, newZ;
+    newX = currentPosition.x + (Math::Cos(yawRadians) * direction);
+    newZ = currentPosition.z + (Math::Sin(yawRadians) * direction);
+
+    std::cout << "Yaw orig: " << yaw
+            << "Yaw degrees: " << yawDegrees
+            << ", Yaw rads: " << yawRadians
+            << ", Old position: " << currentPosition.x << "x" << currentPosition.z
+            << ", New position: " << newX << "x" << newZ
+              << std::endl;
+
+    zmetekNode->setPosition(newX, currentPosition.y, newZ);
     updateCameraPosition();
-    return true;
+}
+
+void ZmetekApp::turnZmetek(int direction) {
+    SceneNode *zmetekNode = zmetek->getParentSceneNode();
+    zmetekNode->yaw(Degree(direction));
 }
 

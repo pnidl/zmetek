@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- exporter: blender2ogre 0.7.0 -->
-<!-- export_time: Wed, 06 Sep 2017 11:29:49 +0000 -->
-<!-- previous_export_time: Wed, 06 Sep 2017 08:22:11 +0000 -->
+<!-- export_time: Thu, 07 Sep 2017 08:23:24 +0000 -->
+<!-- previous_export_time: Thu, 07 Sep 2017 08:22:18 +0000 -->
 <scene author="pooka" formatVersion="1.1" >
   <nodes >
     <node name="Zmetek" >
