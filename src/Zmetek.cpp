@@ -157,9 +157,8 @@ void ZmetekApp::createWorld() {
 
 void ZmetekApp::createZmetek() {
     zmetek = sceneManager->createEntity("zmetek", "Zmetek.mesh", "Zmetek");
-
-    const MaterialPtr &materialPtr = MaterialManager::getSingleton().getByName("Zmetek", "Zmetek");
-    zmetek->setMaterial(materialPtr);
+    zmetek->setMaterialName("Examples/EnvMappedRustySteel");
+    //zmetek->setMaterialName("Zmetek", "Zmetek");
 
     Ogre::SceneNode* node = sceneManager->getRootSceneNode()->createChildSceneNode(Vector3(5,5,5));
     node->attachObject(zmetek);
@@ -188,32 +187,16 @@ void ZmetekApp::updateCameraPosition() {
 
 void ZmetekApp::moveZmetek(int direction) {
     SceneNode *zmetekNode = zmetek->getParentSceneNode();
-    const Quaternion &orientation = zmetekNode->getOrientation();
-    Real yaw = orientation.getYaw().valueDegrees();
-    if (yaw < 0) {
-        yaw = 360 - yaw;
-    }
-    const Degree &yawDegrees = Degree(yaw);
-    const Radian &yawRadians = Radian(yawDegrees);
-
-    const Vector3 &currentPosition = zmetekNode->getPosition();
-    Real newX, newZ;
-    newX = currentPosition.x + (Math::Cos(yawRadians) * direction);
-    newZ = currentPosition.z + (Math::Sin(yawRadians) * direction);
-
-    std::cout << "Yaw orig: " << yaw
-            << "Yaw degrees: " << yawDegrees
-            << ", Yaw rads: " << yawRadians
-            << ", Old position: " << currentPosition.x << "x" << currentPosition.z
-            << ", New position: " << newX << "x" << newZ
-              << std::endl;
-
-    zmetekNode->setPosition(newX, currentPosition.y, newZ);
+    Matrix3 matrix;
+    zmetekNode->getOrientation().ToRotationMatrix(matrix);
+    zmetekNode->translate(matrix, Vector3(direction,0,0));
     updateCameraPosition();
 }
 
 void ZmetekApp::turnZmetek(int direction) {
     SceneNode *zmetekNode = zmetek->getParentSceneNode();
     zmetekNode->yaw(Degree(direction));
+    const Quaternion &orientation = zmetekNode->getOrientation();
+    std::cout << "Orientation: " << orientation << std::endl;
 }
 
